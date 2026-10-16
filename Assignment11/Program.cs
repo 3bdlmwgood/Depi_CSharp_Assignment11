@@ -304,13 +304,42 @@ namespace Assignment11
 
             #region 1. Determine if any of the words in dictionary_english.txt (Read dictionary_english.txt into Array of String First) contain the substring 'ei'.
 
+            bool containsEi = dictionaryWords.Any(word => word.Contains("ei"));
+            Console.WriteLine($"\nDoes any dictionary word contain 'ei'? {containsEi}");
+
             #endregion
 
             #region 2. Return a grouped a list of products only for categories that have at least one product that is out of stock.
 
+            var categoriesWithOutOfStockProducts = ProductsList
+                .GroupBy(p => p.Category)
+                .Where(g => g.Any(p => p.UnitsInStock == 0));
+
+            Console.WriteLine("\nCategories with at least one product out of stock:");
+            foreach (var group in categoriesWithOutOfStockProducts)
+            {
+                Console.WriteLine(group.Key);
+                foreach (var product in group)
+                    Console.WriteLine($"  {product.ProductName} - Stock: {product.UnitsInStock}");
+            }
+
+
             #endregion
 
             #region 3. Return a grouped a list of products only for categories that have all of their products in stock.
+
+            var categoriesWithAllProductsInStock = ProductsList
+                .GroupBy(p => p.Category)
+                .Where(g => g.All(p => p.UnitsInStock > 0));
+
+            Console.WriteLine("\nCategories where all products are in stock:");
+            foreach (var group in categoriesWithAllProductsInStock)
+            {
+                Console.WriteLine(group.Key);
+                foreach (var product in group)
+                    Console.WriteLine($"  {product.ProductName} - Stock: {product.UnitsInStock}");
+            }
+
 
             #endregion
 
