@@ -247,27 +247,54 @@ namespace Assignment11
 
             #region 1. Get the first 3 orders from customers in Washington
 
+            var firstThreeWashingtonOrders = CustomersList
+                .Where(c => c.City == "Washington")
+                .SelectMany(c => c.Orders)
+                .Take(3);
+
+            Console.WriteLine("\nFirst three orders from customers in Washington:");
+            foreach (var order in firstThreeWashingtonOrders)
+                Console.WriteLine($"Order ID: {order.OrderID}, Date: {order.OrderDate}");
+
             #endregion
 
             #region 2. Get all but the first 2 orders from customers in Washington.
+
+            var remainingWashingtonOrders = CustomersList
+                .Where(c => c.City == "Washington")
+                .SelectMany(c => c.Orders)
+                .Skip(2);
+
+            Console.WriteLine("\nWashington orders after skipping the first two:");
+            foreach (var order in remainingWashingtonOrders)
+                Console.WriteLine($"Order ID: {order.OrderID}, Date: {order.OrderDate}");
 
             #endregion
 
             #region 3. Return elements starting from the beginning of the array until a number is hit that is less than its position in the array.
 
-            //int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
-
+            int[] partitionNumbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+            var untilLessThanIndex = partitionNumbers.TakeWhile((n, index) => n >= index);
+            Console.WriteLine("\nElements before a number is less than its index:");
+            foreach (var n in untilLessThanIndex)
+                Console.WriteLine(n);
             #endregion
 
             #region 4.Get the elements of the array starting from the first element divisible by 3.
 
-            int[] numbers2 = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+            var fromFirstDivisibleBy3 = partitionNumbers.SkipWhile(n => n % 3 != 0);
+            Console.WriteLine("\nElements starting from the first number divisible by 3:");
+            foreach (var n in fromFirstDivisibleBy3)
+                Console.WriteLine(n);
 
             #endregion
 
             #region 5. Get the elements of the array starting from the first element less than its position.
 
-            int[] numbers3 = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+            var fromFirstLessThanIndex = partitionNumbers.SkipWhile((n, index) => n >= index);
+            Console.WriteLine("\nElements starting from the first number less than its index:");
+            foreach (var n in fromFirstLessThanIndex)
+                Console.WriteLine(n);
 
             #endregion
 
