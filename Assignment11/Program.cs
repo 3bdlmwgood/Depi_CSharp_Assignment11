@@ -188,21 +188,56 @@ namespace Assignment11
 
             #region 1. Find the unique Category names from Product List
 
+            var uniqueCategories = ProductsList.Select(p => p.Category).Distinct();
+            Console.WriteLine("\nUnique categories:");
+            foreach (var category in uniqueCategories)
+                Console.WriteLine(category);
+
             #endregion
 
             #region 2. Produce a Sequence containing the unique first letter from both product and customernames.
+
+            var productFirstLetters = ProductsList.Select(p => p.ProductName[0].ToString());
+            var customerFirstLetters = CustomersList.Select(c => c.CustomerName[0].ToString());
+            var allUniqueFirstLetters = productFirstLetters.Union(customerFirstLetters);
+
+            Console.WriteLine("\nUnique first letters from products and customers:");
+            foreach (var letter in allUniqueFirstLetters)
+                Console.WriteLine(letter);
 
             #endregion
 
             #region 3. Create one sequence that contains the common first letter from both product and customer names.
 
+            var commonFirstLetters = productFirstLetters.Intersect(customerFirstLetters);
+            Console.WriteLine("\nCommon first letters:");
+            foreach (var letter in commonFirstLetters)
+                Console.WriteLine(letter);
+
             #endregion
 
             #region 4. Create one sequence that contains the first letters of product names that are not also first letters of customer names.
 
+            var productOnlyFirstLetters = productFirstLetters.Except(customerFirstLetters);
+            Console.WriteLine("\nProduct first letters not found among customer first letters:");
+            foreach (var letter in productOnlyFirstLetters)
+                Console.WriteLine(letter);
+
             #endregion
 
             #region 5. Create one sequence that contains the last Three Characters in each name of all customers and products, including any duplicates
+
+            var lastThreeCharacters = CustomersList
+                .Select(c => c.CustomerName.Length >= 3
+                    ? c.CustomerName.Substring(c.CustomerName.Length - 3)
+                    : c.CustomerName)
+                .Concat(ProductsList.Select(p => p.ProductName.Length >= 3
+                    ? p.ProductName.Substring(p.ProductName.Length - 3)
+                    : p.ProductName));
+
+            Console.WriteLine("\nLast three characters of customer and product names:");
+            foreach (var ending in lastThreeCharacters)
+                Console.WriteLine(ending);
 
             #endregion
 
