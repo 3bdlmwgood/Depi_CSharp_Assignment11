@@ -11,20 +11,28 @@ namespace Assignment11
     {
         static void Main(string[] args)
         {
-            
+
             #region Element Operators
 
             #region 1. Get first Product out of Stock
+
+            var firstProductOutOfStock = ProductsList.First(p => p.UnitsInStock == 0);
+            Console.WriteLine($"First Product Out Of Stick: {firstProductOutOfStock.ProductName}");
 
             #endregion
 
             #region 2. Return the first product whose Price > 1000, unless there is no match, in which case null is returned.
 
+            var firstExpensiveProduct = ProductsList.FirstOrDefault(p => p.UnitPrice > 1000);
+            Console.WriteLine($"First product with price > 1000: {firstExpensiveProduct?.ProductName ?? "None"}");
+
             #endregion
 
             #region 3. Retrieve the second number greater than 5
 
-            int[] Arr = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+            int[] arr = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+            var secondNumberGreaterThan5 = arr.Where(n => n > 5).Skip(1).FirstOrDefault();
+            Console.WriteLine($"Second number greater than 5: {secondNumberGreaterThan5}");
 
             #endregion
 
@@ -178,7 +186,7 @@ namespace Assignment11
 
             #region 3. Use Group By with a custom comparer that matches words that are consists of the same Characters Together
             
-            string[] arr = { "from", "salt", "earn", " last", "near", "form" };
+            //string[] arr = { "from", "salt", "earn", " last", "near", "form" };
             
             #endregion
 
