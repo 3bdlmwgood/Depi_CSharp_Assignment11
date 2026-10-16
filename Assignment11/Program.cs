@@ -349,21 +349,63 @@ namespace Assignment11
 
             #region 1. Use group by to partition a list of numbers by their remainder when divided by 5
 
-            List<int> Numbers = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            List<int> groupingNumbers = new List<int>
+                { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+
+            var numbersGroupedByRemainder = groupingNumbers.GroupBy(n => n % 5);
+            Console.WriteLine("\nNumbers grouped by remainder when divided by 5:");
+            foreach (var group in numbersGroupedByRemainder)
+                Console.WriteLine($"Remainder {group.Key}: {string.Join(", ", group)}");
 
             #endregion
 
             #region 2. Uses group by to partition a list of words by their first letter. Use dictionary_english.txt for Input
 
+            //var wordsGroupedByFirstLetter = dictionaryWords
+            //    .Where(word => !string.IsNullOrWhiteSpace(word))
+            //    .GroupBy(word => char.ToLower(word[0]));
+
+            //Console.WriteLine("\nDictionary words grouped by first letter:");
+            //foreach (var group in wordsGroupedByFirstLetter)
+            //    Console.WriteLine($"{group.Key}: {string.Join(", ", group)}");
+
             #endregion
 
             #region 3. Use Group By with a custom comparer that matches words that are consists of the same Characters Together
-            
-            //string[] arr = { "from", "salt", "earn", " last", "near", "form" };
-            
+
+            string[] wordsToGroup = { "from", "salt", "earn", " last", "near", "form" };
+            var anagramGroups = wordsToGroup
+                .GroupBy(word => word.Trim(), new SameCharactersComparer());
+
+            Console.WriteLine("\nWords grouped by the same characters:");
+            foreach (var group in anagramGroups)
+                Console.WriteLine(string.Join(", ", group));
+
             #endregion
 
             #endregion
         }
+    }
+}
+
+
+class SameCharactersComparer : IEqualityComparer<string>
+{
+    private string SortCharacters(string value)
+    {
+        return new string(value.Trim().ToLower().OrderBy(ch => ch).ToArray());
+    }
+
+    public bool Equals(string x, string y)
+    {
+        if (x == null || y == null)
+            return x == y;
+
+        return SortCharacters(x) == SortCharacters(y);
+    }
+
+    public int GetHashCode(string value)
+    {
+        return SortCharacters(value).GetHashCode();
     }
 }
